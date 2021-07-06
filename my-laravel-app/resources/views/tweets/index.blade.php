@@ -25,10 +25,13 @@
     <div style = "width:50%;">
       <form action="{{url('/tweets')}}" action = "get">
         <input type="text" name = "name" placeholder="会社名を入力してください">
-        <input type="submit" value = "検索">
-      </form>
-      <form action="{{url('/tweets')}}" action = "get">
-        <input type="text" name = "job" placeholder="会社名を入力してください">
+        <select name="job">
+          <option value="フロントエンドエンジニア">フロントエンドエンジニア</option>
+          <option value="バックエンドエンジニア">バックエンドエンジニア</option>
+          <option value="インフラエンジニア">インフラエンジニア</option>
+          <option value="iosエンジニア">iosエンジニア</option>
+          <option value="Andoroidエンジニア">Andoroidエンジニア</option>
+        </select>
         <input type="submit" value = "検索">
       </form>
       <form action="{{url('/tweets')}}" action = "get">

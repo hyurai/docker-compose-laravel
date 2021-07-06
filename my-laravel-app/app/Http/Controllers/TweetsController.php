@@ -11,8 +11,8 @@ class TweetsController extends Controller
     {
         $name = $request->name;
         $job = $request->job;
-        $entry_data = $request->entry_data;
-        $start_data = $request->start_data;
+        $before_entry_data = $request->entry_data;
+        $before_start_data = $request->start_data;
 
         $query = Tweet::query();
 
@@ -20,13 +20,17 @@ class TweetsController extends Controller
             $tweets = $query->where('name','LIKE',"%{$name}%")->get();
         }
         if(!empty($job)){
-            $tweets = $query->where('job','LIKE',"%{{$job}}%")->get();
+            $tweets = $query->where('job','LIKE',"%{$job}%")->get();
         }
-        if(!empty($entry_date)){
-            $tweets = $query->where('entry_data','>',"{{$entry_data}}")->get();
+        if(!empty($before_entry_data)){
+            $date = date_create($before_entry_data);
+            $entry_date = date_format($date,'Y-m-d');
+            $tweets = $query->whereDate('entry_data','>=',"{$entry_date}")->get();
         }
-        if(!empty($start_date)){
-            $tweets = $query->where('start_data','>',"{{$start_data}}")->get();
+        if(!empty($before_start_data)){
+            $date = date_create($before_start_data);
+            $start_date = date_format($date,'Y-m-d');
+            $tweets = $query->where('start_data','>=',"{$start_date}")->get();
         }
         $tweets = $query->get();
         return view('tweets/index',compact('tweets'));
