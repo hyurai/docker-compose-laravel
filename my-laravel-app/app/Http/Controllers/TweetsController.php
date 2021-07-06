@@ -7,9 +7,28 @@ use App\Tweet;
 
 class TweetsController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $tweets = Tweet::all();
+        $name = $request->name;
+        $job = $request->job;
+        $entry_data = $request->entry_data;
+        $start_data = $request->start_data;
+
+        $query = Tweet::query();
+
+        if(!empty($name)){
+            $tweets = $query->where('name','LIKE',"%{$name}%")->get();
+        }
+        if(!empty($job)){
+            $tweets = $query->where('job','LIKE',"%{{$job}}%")->get();
+        }
+        if(!empty($entry_date)){
+            $tweets = $query->where('entry_data','>',"{{$entry_data}}")->get();
+        }
+        if(!empty($start_date)){
+            $tweets = $query->where('start_data','>',"{{$start_data}}")->get();
+        }
+        $tweets = $query->get();
         return view('tweets/index',compact('tweets'));
     }
     public function store(Request $request)
