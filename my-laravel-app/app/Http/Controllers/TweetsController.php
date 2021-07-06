@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+
 use App\Tweet;
+use App\Skill;
 
 class TweetsController extends Controller
 {
@@ -35,6 +37,11 @@ class TweetsController extends Controller
         $tweets = $query->get();
         return view('tweets/index',compact('tweets'));
     }
+    public function create()
+    {
+        $tweet = new Tweet;
+        return view('tweets/new',compact('tweet'));
+    }
     public function store(Request $request)
     {
         $tweet =  new Tweet;
@@ -46,6 +53,15 @@ class TweetsController extends Controller
         $tweet->end_data = $request->end_data;
         $tweet->text = $request->text;
         $tweet->save();
+
+
+        foreach($request->skills as $skill_name){
+            $skill = new Skill;
+            $skill->tweet_id = $tweet->id;
+            $skill->skill = $skill_name;
+            $skill->save();
+        }
+
         return redirect('/tweets');
     }
 }
