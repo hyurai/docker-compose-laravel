@@ -6,8 +6,19 @@ use Illuminate\Database\Eloquent\Model;
 
 class Skill extends Model
 {
-    public function tweet()
+    public function tweetskillrelations()
     {
-        return $this->belongsTo('App\Tweet');
+        return $this->hasMany('App\TweetSkillRelation');
+    }
+    public function skilltweets()
+    {
+        return $this->hasManyThrough(
+            'App\Tweet',
+            'App\TweetSkillRelation',
+            'skill_id',
+            'id',
+            null,
+            'tweet_id'
+        );
     }
 }

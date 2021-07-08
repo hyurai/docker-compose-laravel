@@ -20,6 +20,9 @@
           <input type="date" name = "entry_data" style = "width:198px;">
           <input type="date" name = "start_data" style = "width:198px;">
         </div>
+        <div style = "padding-top:10px;">
+          <input type="text" name = "skillname">
+        </div>
         <div style = "padding-top:20px;">
           <input type="submit" value = "検索" style = "width:200px;">
         </div>
@@ -42,8 +45,13 @@
       <p>~</p>
       <p>{{$tweet->end_data}}</p>
     </div>
+    <h6>使用している技術</h6>
+    @foreach($tweet->tweetskills as $skill)
+      <p>{{$skill->name}}</p>
+    @endforeach
     <h6>詳細</h6>
     <p>{{$tweet->text}}</p>
+   
   </div>
 @endforeach
 </div>
