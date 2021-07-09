@@ -21,4 +21,5 @@ class Skill extends Model
             'tweet_id'
         );
     }
+    protected $fillable = ['name'];
 }

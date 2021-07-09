@@ -16,7 +16,7 @@ class CreateTweetsTable extends Migration
         Schema::create('tweets', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->string('name');
+            $table->string('company_name');
             $table->string('job');
             $table->text('text');
             $table->date('entry_data');

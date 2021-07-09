@@ -5,7 +5,7 @@
       <form action="/tweets" method = "post" style = "display:flex; flex-direction:column;" >
         @csrf
         <input type="text" name = "title">
-        <input type="text" name = "name">
+        <input type="text" name = "company_name">
         <select name="job">
           <option value="フロントエンドエンジニア">フロントエンドエンジニア</option>
           <option value="バックエンドエンジニア">バックエンドエンジニア</option>

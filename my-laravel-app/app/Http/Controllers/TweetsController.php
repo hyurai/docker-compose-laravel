@@ -14,7 +14,7 @@ class TweetsController extends Controller
 {
     public function index(Request $request)
     {
-        $name = $request->name;
+        $company_name = $request->company_name;
         $job = $request->job;
         $before_entry_data = $request->entry_data;
         $before_start_data = $request->start_data;
@@ -24,8 +24,8 @@ class TweetsController extends Controller
         $skill_query = Skill::query();
         $tweet_skill_relation_query = TweetSkillRelation::query();
 
-        if(!empty($name)){
-            $tweets = $tweet_query->where('name','LIKE',"%{$name}%")->get();
+        if(!empty($company_name)){
+            $tweets = $tweet_query->where('company_name','LIKE',"%{$company_name}%")->get();
         }
         if(!empty($job)){
             $tweets = $tweet_query->where('job','LIKE',"%{$job}%")->get();
@@ -40,18 +40,12 @@ class TweetsController extends Controller
             $start_date = date_format($date,'Y-m-d');
             $tweets = $tweet_query->where('start_data','>=',"{$start_date}")->get();
         }
-        if(!empty($skillname)){
-            //$skill = $skill_query->where('name','LIKE',"%{$skillname}%")->first();
-            //$tweet_skill_relation = $tweet_skill_relation_query->where('skill_id',$skill->id)->first();
-            //$tweets = $tweet_query->where('id',$tweet_skill_relation->tweet_id)->get(); 
-            
-            $skill =  $skill_query->where('name',"{$skillname}")->first();
-            $tweets = $tweet_query->join('tweet_skill_relations','tweets.id','=','tweet_skill_relations.tweet_id')->join('skills','skills.id','=','tweet_skill_relations.skill_id')->where('skill_id','=',"{$skill->id}")->get();
-        }
-
-        //サブクエリ使え！！！！！
+        //if(!empty($skillname)){
+            //$skill =  $skill_query->where('name',"{$skillname}")->first();
+            //$tweets = $tweet_query->join('tweet_skill_relations','tweets.id','=','tweet_skill_relations.tweet_id')->join('skills','skills.id','=','tweet_skill_relations.skill_id')->where('skill_id','=',"{$skill->id}")->get();
+        //}
         $tweets = $tweet_query->get();
-        return view('tweets/index',compact('tweets'));
+        return view('tweets/index',compact('tweets','company_name','job','before_entry_data','before_start_data','skillname'));
     }
     public function create()
     {
@@ -62,7 +56,7 @@ class TweetsController extends Controller
     {
         $tweet =  new Tweet;
         $tweet->title = $request->title;
-        $tweet->name = $request->name;
+        $tweet->company_name = $request->company_name;
         $tweet->job = $request->job;
         $tweet->entry_data = $request->entry_data;
         $tweet->start_data = $request->start_data;
@@ -78,7 +72,6 @@ class TweetsController extends Controller
             $tweetskillrelation->skill_id = $skill->id;
             $tweetskillrelation->save();
         }
-
         return redirect('/tweets');
     }
 }
